@@ -138,25 +138,37 @@
   function renderTiffin() {
     const container = document.getElementById("tiffin-grid");
     if (!container) return;
-    fetch(`src/data/tiffin.json?t=${Date.now()}`, { cache: "no-store" })
-      .then((r) => {
-        if (!r.ok) throw new Error(`tiffin.json request failed with status ${r.status}`);
-        return r.json();
-      })
-      .then((days) => {
-        container.innerHTML = days
-          .map(
-            (d) => `
-            <div class="tiffin-day-card">
-              <h3>${d.day}</h3>
-              <ul>${d.items.map((item) => `<li>${item}</li>`).join("")}</ul>
-            </div>`
-          )
-          .join("");
-      })
-      .catch((err) => {
-        console.error("Could not load tiffin.json", err);
-      });
+
+    // Same cold-connection retry pattern as the menu: a fresh visit can fail
+    // the very first fetch, so retry a couple of times before falling back.
+    function attempt(attemptsLeft) {
+      fetch(`src/data/tiffin.json?t=${Date.now()}`, { cache: "no-store" })
+        .then((r) => {
+          if (!r.ok) throw new Error(`tiffin.json request failed with status ${r.status}`);
+          return r.json();
+        })
+        .then((days) => {
+          container.innerHTML = days
+            .map(
+              (d) => `
+              <div class="tiffin-day-card">
+                <h3>${d.day}</h3>
+                <ul>${d.items.map((item) => `<li>${item}</li>`).join("")}</ul>
+              </div>`
+            )
+            .join("");
+        })
+        .catch((err) => {
+          if (attemptsLeft > 1) {
+            setTimeout(() => attempt(attemptsLeft - 1), 500);
+            return;
+          }
+          console.error("Could not load tiffin.json", err);
+          container.innerHTML = `<p class="text-center text-charcoal/60 col-span-full">This week's tiffin menu is temporarily unavailable — message us on WhatsApp and we'll send it over.</p>`;
+        });
+    }
+
+    attempt(3);
   }
 
   function galleryLightbox() {

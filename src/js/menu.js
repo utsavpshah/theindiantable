@@ -134,11 +134,28 @@
     emptyState.classList.add("hidden");
   }
 
+  // A brand-new visit can hit a cold connection (DNS/TLS not yet warmed up),
+  // which sometimes fails the very first fetch even though the file is fine —
+  // a plain refresh then works because the connection is already open.
+  // Retrying a couple of times before giving up avoids showing an error for that case.
+  async function fetchJsonWithRetry(url, attempts = 3, delayMs = 500) {
+    let lastErr;
+    for (let i = 0; i < attempts; i++) {
+      try {
+        const res = await fetch(`${url}?t=${Date.now()}`, { cache: "no-store" });
+        if (!res.ok) throw new Error(`${url} request failed with status ${res.status}`);
+        return await res.json();
+      } catch (err) {
+        lastErr = err;
+        if (i < attempts - 1) await new Promise((r) => setTimeout(r, delayMs));
+      }
+    }
+    throw lastErr;
+  }
+
   async function init() {
     try {
-      const res = await fetch(`src/data/menu.json?t=${Date.now()}`, { cache: "no-store" });
-      if (!res.ok) throw new Error(`menu.json request failed with status ${res.status}`);
-      const items = await res.json();
+      const items = await fetchJsonWithRetry("src/data/menu.json");
       // Only show dishes that are explicitly available (or don't specify the flag at all).
       state.items = items.filter((item) => item.available !== false);
     } catch (err) {
