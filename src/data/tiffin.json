@@ -1,0 +1,8 @@
+[
+  { "day": "Monday", "items": ["Daal Tadka", "Chilli Paneer", "Jeera Rice", "Roti", "Cucumber"] },
+  { "day": "Tuesday", "items": ["Aloo Tamatar", "Roasted Soya Chunks", "Rice", "Roti / Puri"] },
+  { "day": "Wednesday", "items": ["Daal Makhani", "Karela Payaj / Paneer Bhurji", "Rice", "Roti", "Boondi"] },
+  { "day": "Thursday", "items": ["Lobia", "Tawa Fry Mix Veg", "Roti", "Aloo Tikki"] },
+  { "day": "Friday", "items": ["Lahori Paneer", "Noodles", "Gobi Manchurian", "Roti"] },
+  { "day": "Saturday", "items": ["Punjabi Chole", "Achari Aloo", "Rice", "Roti"] }
+]

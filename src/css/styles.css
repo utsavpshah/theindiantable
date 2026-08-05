@@ -1,0 +1,409 @@
+/* -------------------------------------------------
+   The Indian Plate — custom styles
+   Layered on top of Tailwind utility classes.
+------------------------------------------------- */
+
+:root {
+  --color-red: #A32638;
+  --color-orange: #D9622B;
+  --color-cream: #FBF3E7;
+  --color-charcoal: #221C1A;
+  --color-white: #FFFFFF;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--color-charcoal);
+  background-color: var(--color-cream);
+}
+
+h1, h2, h3, .font-display {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* -------------------- Reveal-on-scroll -------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+[data-reveal].revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+[data-reveal="fade"] {
+  transform: none;
+}
+
+/* -------------------- Header -------------------- */
+#site-header {
+  transition: box-shadow 0.3s ease, background-color 0.3s ease, padding 0.3s ease;
+}
+#site-header.scrolled {
+  box-shadow: 0 4px 24px rgba(34, 28, 26, 0.08);
+}
+
+#mobile-menu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+#mobile-menu.open {
+  max-height: 28rem;
+}
+
+/* -------------------- Hero -------------------- */
+.hero-bg {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+.hero-overlay {
+  background: linear-gradient(180deg, rgba(34,28,26,0.55) 0%, rgba(34,28,26,0.72) 55%, rgba(34,28,26,0.88) 100%);
+}
+.spice-pattern {
+  background-image: radial-gradient(rgba(217, 98, 43, 0.35) 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+
+.highlight-pill {
+  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* -------------------- Buttons -------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.85rem 1.75rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background-color: #25D366;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.35);
+}
+.btn-primary:hover {
+  background-color: #1fb857;
+  transform: translateY(-2px);
+}
+.btn-outline {
+  background-color: transparent;
+  border: 1.5px solid currentColor;
+}
+.btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+.btn-solid-cream {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+}
+.btn-solid-cream:hover {
+  background-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* -------------------- Section labels -------------------- */
+.section-eyebrow {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-orange);
+}
+
+/* -------------------- Filters -------------------- */
+.type-chip {
+  border-radius: 999px;
+  padding: 0.65rem 1.4rem;
+  font-weight: 600;
+  border: 1.5px solid rgba(34,28,26,0.12);
+  background: #fff;
+  transition: all 0.2s ease;
+}
+.type-chip[aria-pressed="true"] {
+  background: var(--color-red);
+  border-color: var(--color-red);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(163, 38, 56, 0.3);
+}
+
+.chip {
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1.5px solid rgba(34,28,26,0.12);
+  background: #fff;
+  color: var(--color-charcoal);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.chip[aria-pressed="true"] {
+  background: var(--color-orange);
+  border-color: var(--color-orange);
+  color: #fff;
+}
+
+/* -------------------- Menu table -------------------- */
+.menu-listing {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+.menu-category-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-red);
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(163, 38, 56, 0.15);
+}
+.menu-table-wrap {
+  background: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(34, 28, 26, 0.06);
+}
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.menu-table tbody tr {
+  border-bottom: 1px solid rgba(34, 28, 26, 0.08);
+  transition: background-color 0.2s ease;
+  animation: rowIn 0.35s ease both;
+}
+.menu-table tbody tr:last-child {
+  border-bottom: none;
+}
+.menu-table tbody tr:hover {
+  background-color: rgba(217, 98, 43, 0.06);
+}
+@keyframes rowIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.menu-table td {
+  padding: 0.9rem 1rem;
+  vertical-align: middle;
+  font-size: 0.95rem;
+}
+.menu-table .col-type {
+  width: 2.5rem;
+  padding-right: 0;
+}
+.menu-table .col-name {
+  font-weight: 600;
+  color: var(--color-charcoal);
+}
+.menu-table .col-price {
+  text-align: right;
+  font-weight: 700;
+  color: var(--color-red);
+  white-space: nowrap;
+}
+.popular-tag {
+  display: inline-block;
+  margin-left: 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-orange);
+  white-space: nowrap;
+}
+.ask-price {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1fb857;
+  white-space: nowrap;
+}
+.veg-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 2px solid;
+  border-radius: 3px;
+}
+.veg-indicator.veg { border-color: #1a8c3f; }
+.veg-indicator.non-veg { border-color: #A32638; }
+.veg-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+.veg-indicator.veg .veg-dot { background: #1a8c3f; }
+.veg-indicator.non-veg .veg-dot { background: #A32638; }
+
+@media (max-width: 480px) {
+  .menu-table td {
+    padding: 0.75rem 0.6rem;
+    font-size: 0.88rem;
+  }
+  .menu-category-title {
+    font-size: 1.2rem;
+  }
+}
+
+/* -------------------- Tiffin -------------------- */
+.tiffin-day-card {
+  background: var(--color-cream);
+  border-radius: 1.25rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  box-shadow: 0 6px 20px rgba(34, 28, 26, 0.06);
+}
+.tiffin-day-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-red);
+  margin-bottom: 0.75rem;
+}
+.tiffin-day-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.tiffin-day-card li {
+  font-size: 0.9rem;
+  color: rgba(34, 28, 26, 0.8);
+  padding-left: 1.1rem;
+  position: relative;
+}
+.tiffin-day-card li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.5em;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--color-orange);
+}
+
+/* -------------------- Gallery -------------------- */
+.gallery-item {
+  overflow: hidden;
+  border-radius: 1rem;
+  cursor: pointer;
+  position: relative;
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(34,28,26,0.35), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 13, 12, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 100;
+}
+#lightbox.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+#lightbox img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 0.75rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+/* -------------------- Reviews -------------------- */
+.review-card {
+  background: #fff;
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  box-shadow: 0 6px 20px rgba(34, 28, 26, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+}
+.review-card .stars {
+  color: var(--color-orange);
+  letter-spacing: 0.15em;
+}
+.review-card blockquote {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(34,28,26,0.85);
+  flex: 1;
+}
+.review-card figcaption {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-red);
+}
+
+/* -------------------- Contact -------------------- */
+.area-pill {
+  display: inline-block;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  margin: 0.2rem;
+}
+
+/* -------------------- Misc -------------------- */
+.wa-fab {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1.25rem;
+  z-index: 50;
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.45);
+  animation: pulse 2.4s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.45); }
+  70% { box-shadow: 0 0 0 14px rgba(37,211,102,0); }
+  100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+}
+
+.hidden { display: none !important; }
+
+::selection {
+  background: var(--color-orange);
+  color: #fff;
+}
