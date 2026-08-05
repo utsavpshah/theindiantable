@@ -19,6 +19,11 @@
   }
 
   function injectConfig() {
+    if (!cfg) {
+      console.error("SITE_CONFIG is missing — check that config.js loaded before app.js.");
+      return;
+    }
+
     // Text content bindings: any element with data-cfg="path.to.value"
     document.querySelectorAll("[data-cfg]").forEach((el) => {
       const path = el.getAttribute("data-cfg").split(".");
@@ -32,49 +37,76 @@
       a.href = buildWhatsAppUrl();
     });
     document.querySelectorAll('a[data-href="call"]').forEach((a) => {
-      a.href = `tel:${cfg.phone.replace(/\s+/g, "")}`;
+      a.href = cfg.phone ? `tel:${cfg.phone.replace(/\s+/g, "")}` : "#";
     });
     document.querySelectorAll('a[data-href="directions"]').forEach((a) => {
       a.href = buildMapsUrl();
     });
     document.querySelectorAll('a[data-href="facebook"]').forEach((a) => {
-      if (cfg.social.facebook) a.href = cfg.social.facebook;
+      if (cfg.social && cfg.social.facebook) a.href = cfg.social.facebook;
       else a.classList.add("hidden");
     });
     document.querySelectorAll('a[data-href="instagram"]').forEach((a) => {
-      if (cfg.social.instagram) a.href = cfg.social.instagram;
+      if (cfg.social && cfg.social.instagram) a.href = cfg.social.instagram;
       else a.classList.add("hidden");
     });
 
+    // Phone / WhatsApp rows in the contact section — hide the whole row if the value is empty.
+    const phoneRow = document.getElementById("cfg-phone-row");
+    if (phoneRow) phoneRow.classList.toggle("hidden", !cfg.phone);
+
+    const waRow = document.getElementById("cfg-whatsapp-row");
+    const waDisplay = document.getElementById("cfg-whatsapp-display");
+    if (waRow && waDisplay) {
+      if (cfg.whatsappNumber) {
+        // Show the WhatsApp number in a readable UK format, e.g. 447436446532 -> +44 7436 446532
+        const digits = cfg.whatsappNumber;
+        waDisplay.textContent = digits.startsWith("44")
+          ? `+44 ${digits.slice(2, 6)} ${digits.slice(6)}`
+          : `+${digits}`;
+      } else {
+        waRow.classList.add("hidden");
+      }
+    }
+
     // Address (may appear in more than one place, e.g. contact section + footer)
-    const addrHtml = (() => {
-      const a = cfg.address;
-      return [a.line1, a.line2, `${a.city} ${a.postcode}`, a.country].filter(Boolean).join("<br>");
-    })();
+    const a = cfg.address || {};
+    const addrHtml = [a.line1, a.line2, [a.city, a.postcode].filter(Boolean).join(" "), a.country]
+      .filter(Boolean)
+      .join("<br>");
     ["cfg-address", "cfg-address-footer"].forEach((id) => {
       const el = document.getElementById(id);
-      if (el) el.innerHTML = addrHtml;
+      if (!el) return;
+      el.innerHTML = addrHtml;
+      el.classList.toggle("hidden", !addrHtml);
     });
 
     // Opening hours
     const hoursEl = document.getElementById("cfg-hours");
     if (hoursEl) {
-      hoursEl.innerHTML = cfg.openingHours
-        .map(
-          (h) =>
-            `<li class="flex justify-between gap-4"><span>${h.day}</span><span class="font-medium">${h.hours}</span></li>`
-        )
-        .join("");
+      if (cfg.openingHours && cfg.openingHours.length) {
+        hoursEl.innerHTML = cfg.openingHours
+          .map(
+            (h) =>
+              `<li class="flex justify-between gap-4"><span>${h.day}</span><span class="font-medium">${h.hours}</span></li>`
+          )
+          .join("");
+      } else {
+        hoursEl.closest("div").classList.add("hidden");
+      }
     }
 
     // Delivery areas
     const areasEl = document.getElementById("cfg-delivery-areas");
     if (areasEl) {
-      areasEl.innerHTML = cfg.deliveryAreas
-        .map((area) => `<span class="area-pill">${area}</span>`)
-        .join("");
+      if (cfg.deliveryAreas && cfg.deliveryAreas.length) {
+        areasEl.innerHTML = cfg.deliveryAreas
+          .map((area) => `<span class="area-pill">${area}</span>`)
+          .join("");
+      } else {
+        areasEl.closest("div").classList.add("hidden");
+      }
     }
-
   }
 
   function mobileNav() {
@@ -106,8 +138,11 @@
   function renderTiffin() {
     const container = document.getElementById("tiffin-grid");
     if (!container) return;
-    fetch("src/data/tiffin.json", { cache: "no-store" })
-      .then((r) => r.json())
+    fetch(`src/data/tiffin.json?t=${Date.now()}`, { cache: "no-store" })
+      .then((r) => {
+        if (!r.ok) throw new Error(`tiffin.json request failed with status ${r.status}`);
+        return r.json();
+      })
       .then((days) => {
         container.innerHTML = days
           .map(
