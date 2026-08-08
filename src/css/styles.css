@@ -21,6 +21,13 @@
   --color-white: #FFFFFF;
 }
 
+html {
+  /* Belt-and-braces alongside the color-scheme meta tag: this site has one
+     deliberate brand palette (light background), so we opt out of the
+     browser auto-darkening native controls when the device is in dark mode. */
+  color-scheme: light;
+}
+
 * {
   scroll-behavior: smooth;
 }
