@@ -1,5 +1,5 @@
 /**
- * The Indian Plate — menu rendering & filtering
+ * The Indian Table — menu rendering & filtering
  * -------------------------------------------------
  * Fully JSON-driven. Nothing about individual dishes is hardcoded here.
  * Edit /src/data/menu.json to add, remove or change dishes.

@@ -1,5 +1,5 @@
 /**
- * The Indian Plate — site behaviour
+ * The Indian Table — site behaviour
  * -------------------------------------------------
  * Handles: config-driven content injection, WhatsApp links, mobile nav,
  * sticky header state, tiffin rendering, gallery lightbox, scroll reveal.

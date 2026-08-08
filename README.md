@@ -1,6 +1,6 @@
-# The Indian Plate
+# The Indian Table
 
-A premium, single-page website for The Indian Plate, a home-based Indian food business in the UK offering collection and local delivery. Built with HTML5, Tailwind CSS and vanilla JavaScript. No backend, no database, no cart or checkout — this is a menu showcase site with WhatsApp ordering.
+A premium, single-page website for The Indian Table, a home-based Indian food business in the UK offering collection and local delivery. Built with HTML5, Tailwind CSS and vanilla JavaScript. No backend, no database, no cart or checkout — this is a menu showcase site with WhatsApp ordering.
 
 ## Project structure
 
@@ -25,7 +25,7 @@ the-indian-plate/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml         GitHub Actions workflow — auto-deploys to GitHub Pages on push
-├── CNAME                      Custom domain for GitHub Pages (theindianplate.co.uk)
+├── CNAME                      Custom domain for GitHub Pages (theindiantable.co.uk)
 └── README.md
 ```
 
@@ -58,7 +58,7 @@ There is no build step. This is a static site — Tailwind is loaded via CDN and
    - **Framework preset:** None
    - **Build command:** (leave blank)
    - **Build output directory:** `/` (project root)
-5. Deploy. Add `theindianplate.co.uk` as a custom domain under **Custom domains** once deployed.
+5. Deploy. Add `theindiantable.co.uk` as a custom domain under **Custom domains** once deployed.
 
 ## Deploying to GitHub Pages
 
@@ -68,9 +68,9 @@ This repo includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) th
 2. Go to **Settings → Pages**.
 3. Under **Build and deployment**, set **Source** to "GitHub Actions" (not "Deploy from a branch").
 4. Push a commit to `main` (or go to the **Actions** tab and manually run the "Deploy to GitHub Pages" workflow). The site will build and publish automatically.
-5. Your site will be published at `https://<username>.github.io/<repo>/`, or at `https://theindianplate.co.uk/` once the custom domain is configured (see below).
+5. Your site will be published at `https://<username>.github.io/<repo>/`, or at `https://theindiantable.co.uk/` once the custom domain is configured (see below).
 
-**Custom domain (`theindianplate.co.uk`):** the repo already includes a `CNAME` file with the domain in it, so GitHub Pages will pick it up automatically once Pages is enabled. You'll still need to point your domain's DNS at GitHub Pages — add either an `ALIAS`/`ANAME` record (or `A` records pointing at GitHub's Pages IPs) for the apex domain, or a `CNAME` record for a `www` subdomain, as described in [GitHub's custom domain docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site). If you don't want to use `theindianplate.co.uk` yet, just delete or edit the `CNAME` file.
+**Custom domain (`theindiantable.co.uk`):** the repo already includes a `CNAME` file with the domain in it, so GitHub Pages will pick it up automatically once Pages is enabled. You'll still need to point your domain's DNS at GitHub Pages — add either an `ALIAS`/`ANAME` record (or `A` records pointing at GitHub's Pages IPs) for the apex domain, or a `CNAME` record for a `www` subdomain, as described in [GitHub's custom domain docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site). If you don't want to use `theindiantable.co.uk` yet, just delete or edit the `CNAME` file.
 
 If you'd rather deploy manually without Actions, you can still go to **Settings → Pages**, set **Source** to "Deploy from a branch", and pick `main` / root — but the included workflow is the recommended, zero-maintenance option.
 

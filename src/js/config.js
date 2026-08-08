@@ -1,14 +1,14 @@
 /**
- * The Indian Plate — business configuration
+ * The Indian Table — business configuration
  * -------------------------------------------------
  * Edit ONLY the values below to update business details across the whole
  * website (contact section, header button, WhatsApp links, structured data).
  * No other code changes are required.
  */
 window.SITE_CONFIG = {
-  businessName: "The Indian Plate",
+  businessName: "The Indian Table",
   tagline: "Authentic Homemade Indian Food",
-  domain: "https://theindianplate.co.uk",
+  domain: "https://theindiantable.co.uk",
 
   // Phone number shown to customers and used for the "Call Now" button.
   // Use a normal readable UK format, e.g. "01234 567890" or "07123 456789".
@@ -51,10 +51,10 @@ window.SITE_CONFIG = {
 
   social: {
     facebook: "https://www.facebook.com/profile.php?id=61576523743639",
-    instagram: "https://instagram.com/theindianplate",
+    instagram: "https://instagram.com/theindiantable",
     tiktok: ""
   },
 
   // Default message pre-filled into WhatsApp when a customer taps an order button.
-  whatsappDefaultMessage: "Hi The Indian Plate, I would like to place an order."
+  whatsappDefaultMessage: "Hi The Indian Table, I would like to place an order."
 };
