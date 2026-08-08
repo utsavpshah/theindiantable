@@ -40,10 +40,13 @@
     theme: {
       extend: {
         colors: {
-          red: { DEFAULT: "#A32638" },
-          orange: { DEFAULT: "#D9622B" },
-          cream: { DEFAULT: "#FBF3E7" },
-          charcoal: { DEFAULT: "#221C1A" }
+          // These read from CSS variables (set in styles.css, swapped live by
+          // the theme switcher in app.js) so bg-red, text-orange/90,
+          // bg-cream/95 etc. all re-theme instantly without a page reload.
+          red: { DEFAULT: "rgb(var(--color-red-rgb) / <alpha-value>)" },
+          orange: { DEFAULT: "rgb(var(--color-orange-rgb) / <alpha-value>)" },
+          cream: { DEFAULT: "rgb(var(--color-cream-rgb) / <alpha-value>)" },
+          charcoal: { DEFAULT: "rgb(var(--color-charcoal-rgb) / <alpha-value>)" }
         },
         fontFamily: {
           display: ["Playfair Display", "Georgia", "serif"],
@@ -91,8 +94,14 @@
 
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-orange focus:text-white focus:px-4 focus:py-2 focus:rounded-full focus:top-2 focus:left-2">Skip to content</a>
 
+<!-- ===================== THEME PREVIEW BAR (temporary — remove once finalized) ===================== -->
+<div id="theme-preview-bar" class="fixed top-0 inset-x-0 z-50 bg-charcoal text-cream text-xs sm:text-sm flex items-center justify-center gap-2 sm:gap-3 py-2 px-3">
+  <span>Previewing theme:</span>
+  <select id="theme-select" class="rounded-full px-3 py-1 text-charcoal text-xs sm:text-sm font-semibold border-0"></select>
+</div>
+
 <!-- ===================== HEADER ===================== -->
-<header id="site-header" class="fixed top-0 inset-x-0 z-40 bg-cream/95 backdrop-blur">
+<header id="site-header" class="fixed top-[38px] sm:top-[42px] inset-x-0 z-40 bg-cream/95 backdrop-blur">
   <div class="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between h-[72px]">
     <a href="#home" class="flex items-center gap-2 font-display text-xl sm:text-2xl font-800 text-charcoal">
       <img src="public/images/logo-icon.png" alt="The Indian Table logo" class="w-10 h-10 rounded-full object-cover" width="40" height="40">
@@ -135,7 +144,7 @@
 <main id="main">
 
   <!-- ===================== HERO ===================== -->
-  <section id="home" class="hero-bg pt-[72px]" style="background-image:url('https://images.unsplash.com/photo-1742281257707-0c7f7e5ca9c6?auto=format&fit=crop&w=1600&q=80');">
+  <section id="home" class="hero-bg pt-[110px] sm:pt-[114px]" style="background-image:url('https://images.unsplash.com/photo-1742281257707-0c7f7e5ca9c6?auto=format&fit=crop&w=1600&q=80');">
     <div class="hero-overlay">
       <div class="spice-pattern">
         <div class="max-w-7xl mx-auto px-5 sm:px-8 py-24 sm:py-32 lg:py-40 text-cream">
@@ -413,6 +422,7 @@
 </div>
 
 <script src="src/js/config.js?v=%%CACHE_BUST%%"></script>
+<script src="src/js/themes.js?v=%%CACHE_BUST%%"></script>
 <script src="src/js/menu.js?v=%%CACHE_BUST%%"></script>
 <script src="src/js/app.js?v=%%CACHE_BUST%%"></script>
 </body>
