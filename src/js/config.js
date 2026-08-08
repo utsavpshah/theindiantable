@@ -50,7 +50,7 @@ window.SITE_CONFIG = {
   ],
 
   social: {
-    facebook: "https://facebook.com/theindianplate",
+    facebook: "https://www.facebook.com/profile.php?id=61576523743639",
     instagram: "https://instagram.com/theindianplate",
     tiktok: ""
   },
