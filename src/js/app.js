@@ -15,7 +15,15 @@
   }
 
   function buildMapsUrl() {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cfg.mapsQuery)}`;
+    const query = encodeURIComponent(cfg.mapsQuery);
+    // iOS devices get an Apple Maps link (opens the native Maps app);
+    // everyone else gets Google Maps (opens the native app on Android,
+    // Google Maps in the browser on desktop).
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      return `https://maps.apple.com/?q=${query}`;
+    }
+    return `https://www.google.com/maps/search/?api=1&query=${query}`;
   }
 
   function injectConfig() {
