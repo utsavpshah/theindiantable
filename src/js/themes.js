@@ -44,6 +44,7 @@
   ];
 
   const STORAGE_KEY = "tip-preview-theme";
+  const DARK_STORAGE_KEY = "tip-dark-mode";
 
   function applyTheme(theme) {
     const root = document.documentElement.style;
@@ -53,7 +54,25 @@
     root.setProperty("--color-charcoal-rgb", theme.colors.charcoal);
   }
 
-  function init() {
+  function currentRgbVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  // Keeps the actual browser color-scheme and the mobile browser-chrome
+  // color in sync with whichever mode + accent theme is currently active,
+  // so native controls (scrollbars, form fields, the address bar tint on
+  // mobile) never clash with the page.
+  function applyColorScheme(isDark) {
+    document.documentElement.classList.toggle("dark", isDark);
+    document.documentElement.style.colorScheme = isDark ? "dark" : "light";
+    const meta = document.getElementById("meta-theme-color");
+    if (meta) {
+      const rgb = isDark ? currentRgbVar("--color-charcoal-rgb") : currentRgbVar("--color-cream-rgb");
+      if (rgb) meta.setAttribute("content", `rgb(${rgb.trim().split(/\s+/).join(",")})`);
+    }
+  }
+
+  function initThemeSelect() {
     const select = document.getElementById("theme-select");
     if (!select) return;
 
@@ -69,7 +88,31 @@
       const theme = THEMES.find((t) => t.id === select.value) || THEMES[0];
       applyTheme(theme);
       localStorage.setItem(STORAGE_KEY, theme.id);
+      // Re-sync theme-color meta since the accent colors just changed.
+      applyColorScheme(document.documentElement.classList.contains("dark"));
     });
+  }
+
+  function initDarkToggle() {
+    const toggle = document.getElementById("dark-mode-toggle");
+    if (!toggle) return;
+
+    const saved = localStorage.getItem(DARK_STORAGE_KEY);
+    const systemPrefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = saved !== null ? saved === "1" : systemPrefersDark;
+
+    toggle.checked = isDark;
+    applyColorScheme(isDark);
+
+    toggle.addEventListener("change", () => {
+      applyColorScheme(toggle.checked);
+      localStorage.setItem(DARK_STORAGE_KEY, toggle.checked ? "1" : "0");
+    });
+  }
+
+  function init() {
+    initThemeSelect();
+    initDarkToggle();
   }
 
   document.addEventListener("DOMContentLoaded", init);

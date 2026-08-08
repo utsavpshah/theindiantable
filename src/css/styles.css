@@ -19,6 +19,36 @@
   --color-cream: rgb(var(--color-cream-rgb));
   --color-charcoal: rgb(var(--color-charcoal-rgb));
   --color-white: #FFFFFF;
+
+  /* "ink" is the readable-text tone: charcoal on a light page, cream on a
+     dark page. Unlike --color-charcoal (a literal theme color used for
+     deliberately-always-dark chrome like the footer), --text-primary-rgb
+     flips automatically when .dark is toggled on <html>. */
+  --text-primary-rgb: var(--color-charcoal-rgb);
+}
+
+html.dark {
+  --text-primary-rgb: var(--color-cream-rgb);
+}
+
+/* Elevated surfaces for dark mode — cards/panels need to read as slightly
+   lighter than the page background so they still look like distinct
+   surfaces once the page itself turns dark. Two tiers: -panel for
+   sections/simple cards, -soft for cards that sit inside a -panel section
+   and need to pop a bit further. */
+html.dark .surface-panel,
+html.dark .type-chip,
+html.dark .chip,
+html.dark .menu-table-wrap {
+  background-color: color-mix(in srgb, rgb(var(--color-charcoal-rgb)) 100%, white 10%);
+}
+html.dark .trust-card,
+html.dark .tiffin-step,
+html.dark .tiffin-day-card {
+  background: color-mix(in srgb, rgb(var(--color-charcoal-rgb)) 100%, white 16%);
+}
+.surface-panel {
+  background-color: #fff;
 }
 
 html {
@@ -34,7 +64,7 @@ html {
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  color: var(--color-charcoal);
+  color: rgb(var(--text-primary-rgb));
   background-color: var(--color-cream);
 }
 
@@ -148,7 +178,7 @@ h1, h2, h3, .font-display {
   border-radius: 999px;
   padding: 0.65rem 1.4rem;
   font-weight: 600;
-  border: 1.5px solid rgb(var(--color-charcoal-rgb) / 0.12);
+  border: 1.5px solid rgb(var(--text-primary-rgb) / 0.12);
   background: #fff;
   transition: all 0.2s ease;
 }
@@ -164,9 +194,9 @@ h1, h2, h3, .font-display {
   padding: 0.5rem 1.1rem;
   font-size: 0.875rem;
   font-weight: 600;
-  border: 1.5px solid rgb(var(--color-charcoal-rgb) / 0.12);
+  border: 1.5px solid rgb(var(--text-primary-rgb) / 0.12);
   background: #fff;
-  color: var(--color-charcoal);
+  color: rgb(var(--text-primary-rgb));
   transition: all 0.2s ease;
   white-space: nowrap;
 }
@@ -202,7 +232,7 @@ h1, h2, h3, .font-display {
 }
 .trust-card p {
   font-size: 0.87rem;
-  color: rgb(var(--color-charcoal-rgb) / 0.7);
+  color: rgb(var(--text-primary-rgb) / 0.7);
   line-height: 1.55;
 }
 .hygiene-rating {
@@ -213,13 +243,13 @@ h1, h2, h3, .font-display {
   border-radius: 0.75rem;
   font-size: 0.82rem;
   line-height: 1.6;
-  color: rgb(var(--color-charcoal-rgb) / 0.65);
+  color: rgb(var(--text-primary-rgb) / 0.65);
   text-align: center;
 }
 .hygiene-badge {
   display: block;
   font-weight: 700;
-  color: var(--color-charcoal);
+  color: rgb(var(--text-primary-rgb));
   margin-bottom: 0.3rem;
 }
 
@@ -248,7 +278,7 @@ h1, h2, h3, .font-display {
   border-collapse: collapse;
 }
 .menu-table tbody tr {
-  border-bottom: 1px solid rgb(var(--color-charcoal-rgb) / 0.08);
+  border-bottom: 1px solid rgb(var(--text-primary-rgb) / 0.08);
   transition: background-color 0.2s ease;
   animation: rowIn 0.35s ease both;
 }
@@ -273,7 +303,7 @@ h1, h2, h3, .font-display {
 }
 .menu-table .col-name {
   font-weight: 600;
-  color: var(--color-charcoal);
+  color: rgb(var(--text-primary-rgb));
 }
 .menu-table .col-price {
   text-align: right;
@@ -334,7 +364,7 @@ h1, h2, h3, .font-display {
 }
 .menu-error p {
   font-size: 1rem;
-  color: rgb(var(--color-charcoal-rgb) / 0.75);
+  color: rgb(var(--text-primary-rgb) / 0.75);
   font-weight: 600;
 }
 
@@ -346,7 +376,7 @@ h1, h2, h3, .font-display {
   border-radius: 0.75rem;
   font-size: 0.85rem;
   line-height: 1.6;
-  color: rgb(var(--color-charcoal-rgb) / 0.8);
+  color: rgb(var(--text-primary-rgb) / 0.8);
   text-align: center;
 }
 .allergen-notice strong {
@@ -379,7 +409,7 @@ h1, h2, h3, .font-display {
 }
 .tiffin-step p {
   font-size: 0.88rem;
-  color: rgb(var(--color-charcoal-rgb) / 0.7);
+  color: rgb(var(--text-primary-rgb) / 0.7);
   line-height: 1.55;
 }
 
@@ -402,7 +432,7 @@ h1, h2, h3, .font-display {
 }
 .tiffin-day-card li {
   font-size: 0.9rem;
-  color: rgb(var(--color-charcoal-rgb) / 0.8);
+  color: rgb(var(--text-primary-rgb) / 0.8);
   padding-left: 1.1rem;
   position: relative;
 }

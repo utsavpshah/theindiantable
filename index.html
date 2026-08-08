@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- This site uses one deliberate brand palette rather than swapping to a
-     separate dark design when the device is set to dark mode. Declaring
-     color-scheme keeps native browser UI (dropdown popups, scrollbars, form
-     controls) rendering in the light style that matches our page instead of
-     the browser forcing its own dark styling on top of it, which would clash. -->
-<meta name="color-scheme" content="light">
-<meta name="theme-color" content="#F7F1E3">
+<!-- This site has a real light AND dark design, toggled manually (see the
+     preview bar / dark-mode-toggle.js) rather than just following the OS
+     setting. The actual color-scheme value is kept in sync with the current
+     mode by JS on load, so native browser UI (scrollbars, form controls)
+     always matches whichever mode is active. -->
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F7F1E3" id="meta-theme-color">
 <title>The Indian Table | Authentic Homemade Indian Food in Rugby</title>
 <meta name="description" content="Fresh homemade Indian food available for collection and local delivery in Rugby.">
 <meta name="keywords" content="Indian food Rugby, homemade Indian food, Indian takeaway, Indian delivery Rugby, curry collection, home-based Indian kitchen">
@@ -44,6 +44,9 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
+    // Enables dark: variants driven by a "dark" class on <html> (toggled by
+    // dark-mode-toggle.js) instead of just following the OS setting.
+    darkMode: 'class',
     theme: {
       extend: {
         colors: {
@@ -53,7 +56,11 @@
           red: { DEFAULT: "rgb(var(--color-red-rgb) / <alpha-value>)" },
           orange: { DEFAULT: "rgb(var(--color-orange-rgb) / <alpha-value>)" },
           cream: { DEFAULT: "rgb(var(--color-cream-rgb) / <alpha-value>)" },
-          charcoal: { DEFAULT: "rgb(var(--color-charcoal-rgb) / <alpha-value>)" }
+          charcoal: { DEFAULT: "rgb(var(--color-charcoal-rgb) / <alpha-value>)" },
+          // "ink" is readable text: charcoal on a light page, cream on a dark
+          // page. It flips automatically with dark mode — no dark: prefix
+          // needed anywhere it's used.
+          ink: { DEFAULT: "rgb(var(--text-primary-rgb) / <alpha-value>)" }
         },
         fontFamily: {
           display: ["Playfair Display", "Georgia", "serif"],
@@ -97,7 +104,7 @@
 }
 </script>
 </head>
-<body class="bg-cream text-charcoal antialiased">
+<body class="bg-cream dark:bg-charcoal text-ink antialiased">
 
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-orange focus:text-white focus:px-4 focus:py-2 focus:rounded-full focus:top-2 focus:left-2">Skip to content</a>
 
@@ -105,12 +112,19 @@
 <div id="theme-preview-bar" class="fixed top-0 inset-x-0 z-50 bg-charcoal text-cream text-xs sm:text-sm flex items-center justify-center gap-2 sm:gap-3 py-2 px-3">
   <span>Previewing theme:</span>
   <select id="theme-select" class="rounded-full px-3 py-1 text-charcoal text-xs sm:text-sm font-semibold border-0"></select>
+  <label class="flex items-center gap-1.5 cursor-pointer select-none ml-1">
+    <input type="checkbox" id="dark-mode-toggle" class="sr-only peer">
+    <span class="w-9 h-5 rounded-full bg-white/20 peer-checked:bg-orange transition-colors relative shrink-0">
+      <span class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform peer-checked:translate-x-4"></span>
+    </span>
+    <span>Dark mode</span>
+  </label>
 </div>
 
 <!-- ===================== HEADER ===================== -->
-<header id="site-header" class="fixed top-[38px] sm:top-[42px] inset-x-0 z-40 bg-cream/95 backdrop-blur">
+<header id="site-header" class="fixed top-[38px] sm:top-[42px] inset-x-0 z-40 bg-cream/95 dark:bg-charcoal/95 backdrop-blur">
   <div class="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between h-[72px]">
-    <a href="#home" class="flex items-center gap-2 font-display text-xl sm:text-2xl font-800 text-charcoal">
+    <a href="#home" class="flex items-center gap-2 font-display text-xl sm:text-2xl font-800 text-ink">
       <img src="public/images/logo-icon.png" alt="The Indian Table logo" class="w-10 h-10 rounded-full object-cover" width="40" height="40">
       <span>The Indian Table</span>
     </a>
@@ -135,7 +149,7 @@
     </div>
   </div>
 
-  <nav id="mobile-menu" class="md:hidden bg-cream border-t border-charcoal/10" aria-label="Mobile">
+  <nav id="mobile-menu" class="md:hidden bg-cream dark:bg-charcoal border-t border-ink/10" aria-label="Mobile">
     <div class="px-5 py-4 flex flex-col gap-4 text-sm font-semibold">
       <a href="#home">Home</a>
       <a href="#menu">Menu</a>
@@ -182,7 +196,7 @@
   </section>
 
   <!-- ===================== WHY CHOOSE US ===================== -->
-  <section id="why-us" class="py-16 sm:py-20 bg-white">
+  <section id="why-us" class="py-16 sm:py-20 surface-panel">
     <div class="max-w-7xl mx-auto px-5 sm:px-8">
       <div class="text-center max-w-2xl mx-auto mb-10" data-reveal>
         <p class="section-eyebrow mb-3">Why Choose Us</p>
@@ -223,7 +237,7 @@
       <div class="text-center max-w-2xl mx-auto mb-12" data-reveal>
         <p class="section-eyebrow mb-3">Our Menu</p>
         <h2 class="font-display text-3xl sm:text-4xl font-700 mb-4">Made Fresh, Made Homemade</h2>
-        <p class="text-charcoal/70">Every dish is cooked in small batches using traditional family recipes. Browse and filter to find your favourites.</p>
+        <p class="text-ink/70">Every dish is cooked in small batches using traditional family recipes. Browse and filter to find your favourites.</p>
       </div>
 
       <div class="flex flex-col items-center gap-5 mb-10" data-reveal>
@@ -236,7 +250,7 @@
       </div>
 
       <div id="menu-grid" class="menu-listing"></div>
-      <p id="menu-empty" class="hidden text-center text-charcoal/60 py-12">No dishes match your filters right now — try a different combination.</p>
+      <p id="menu-empty" class="hidden text-center text-ink/60 py-12">No dishes match your filters right now — try a different combination.</p>
 
       <p class="allergen-notice" data-reveal>
         <strong>Allergen information:</strong> our kitchen prepares food containing nuts, peanuts, milk, gluten, egg, soya, mustard and other allergens, and dishes may contain traces of these even if not listed. Please let us know about any allergies or intolerances before ordering.
@@ -245,12 +259,12 @@
   </section>
 
   <!-- ===================== TIFFIN ===================== -->
-  <section id="tiffin" class="py-20 sm:py-28 bg-white">
+  <section id="tiffin" class="py-20 sm:py-28 surface-panel">
     <div class="max-w-7xl mx-auto px-5 sm:px-8">
       <div class="text-center max-w-2xl mx-auto mb-10" data-reveal>
         <p class="section-eyebrow mb-3">Weekly Tiffin Subscription</p>
         <h2 class="font-display text-3xl sm:text-4xl font-700 mb-4">Fresh Homemade Meals, Delivered Weekly</h2>
-        <p class="text-charcoal/70">A rotating weekly thali of simple, fresh, home-cooked meals — subscribe once and have a proper home-cooked meal ready every day, without the daily cooking.</p>
+        <p class="text-ink/70">A rotating weekly thali of simple, fresh, home-cooked meals — subscribe once and have a proper home-cooked meal ready every day, without the daily cooking.</p>
       </div>
 
       <div class="grid sm:grid-cols-3 gap-5 mb-14" data-reveal>
@@ -272,8 +286,8 @@
       </div>
 
       <div class="text-center mb-14" data-reveal>
-        <p class="font-display text-3xl sm:text-4xl font-800 text-red">£6.99 <span class="text-base font-500 text-charcoal/60">per day</span></p>
-        <p class="text-sm text-charcoal/60 mt-1">Extra delivery charges may apply depending on your location.</p>
+        <p class="font-display text-3xl sm:text-4xl font-800 text-red">£6.99 <span class="text-base font-500 text-ink/60">per day</span></p>
+        <p class="text-sm text-ink/60 mt-1">Extra delivery charges may apply depending on your location.</p>
       </div>
 
       <p class="text-center font-display text-xl font-700 mb-6" data-reveal>Sample Weekly Menu</p>
@@ -290,7 +304,7 @@
       <div class="text-center max-w-2xl mx-auto mb-12" data-reveal>
         <p class="section-eyebrow mb-3">Gallery</p>
         <h2 class="font-display text-3xl sm:text-4xl font-700 mb-4">A Taste of What We Make</h2>
-        <p class="text-charcoal/70">A glimpse of dishes straight from our kitchen. Tap any photo for a closer look.</p>
+        <p class="text-ink/70">A glimpse of dishes straight from our kitchen. Tap any photo for a closer look.</p>
       </div>
 
       <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4" data-reveal>
@@ -313,17 +327,17 @@
       <div data-reveal>
         <p class="section-eyebrow mb-3">Our Story</p>
         <h2 class="font-display text-3xl sm:text-4xl font-700 mb-6">Cooked at Home, Shared with Love</h2>
-        <p class="text-charcoal/75 leading-relaxed mb-4">The Indian Table started in our own kitchen, cooking the recipes passed down through generations of our family. What began as meals for friends and neighbours has grown into a small home-based kitchen serving our local community around Rugby.</p>
-        <p class="text-charcoal/75 leading-relaxed mb-4">We only use fresh ingredients, whole spices ground in-house, and slow-cooking methods that take time — because that's how proper Indian food is meant to be made. Nothing is mass-produced and nothing is frozen.</p>
-        <p class="text-charcoal/75 leading-relaxed mb-8">Every order is prepared fresh for collection or local delivery, the same way we'd cook for our own family.</p>
+        <p class="text-ink/75 leading-relaxed mb-4">The Indian Table started in our own kitchen, cooking the recipes passed down through generations of our family. What began as meals for friends and neighbours has grown into a small home-based kitchen serving our local community around Rugby.</p>
+        <p class="text-ink/75 leading-relaxed mb-4">We only use fresh ingredients, whole spices ground in-house, and slow-cooking methods that take time — because that's how proper Indian food is meant to be made. Nothing is mass-produced and nothing is frozen.</p>
+        <p class="text-ink/75 leading-relaxed mb-8">Every order is prepared fresh for collection or local delivery, the same way we'd cook for our own family.</p>
         <div class="grid grid-cols-2 gap-4">
-          <div class="bg-white rounded-2xl p-5 shadow-sm">
+          <div class="surface-panel rounded-2xl p-5 shadow-sm">
             <p class="font-display text-2xl font-700 text-red mb-1">100%</p>
-            <p class="text-sm text-charcoal/70">Homemade recipes</p>
+            <p class="text-sm text-ink/70">Homemade recipes</p>
           </div>
-          <div class="bg-white rounded-2xl p-5 shadow-sm">
+          <div class="surface-panel rounded-2xl p-5 shadow-sm">
             <p class="font-display text-2xl font-700 text-red mb-1">Fresh</p>
-            <p class="text-sm text-charcoal/70">Ingredients daily</p>
+            <p class="text-sm text-ink/70">Ingredients daily</p>
           </div>
         </div>
       </div>
