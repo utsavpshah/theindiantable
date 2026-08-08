@@ -97,9 +97,10 @@
     const toggle = document.getElementById("dark-mode-toggle");
     if (!toggle) return;
 
+    // Light mode is the default regardless of the device's system setting —
+    // only an explicit toggle (remembered below) switches this to dark.
     const saved = localStorage.getItem(DARK_STORAGE_KEY);
-    const systemPrefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const isDark = saved !== null ? saved === "1" : systemPrefersDark;
+    const isDark = saved === "1";
 
     toggle.checked = isDark;
     applyColorScheme(isDark);
